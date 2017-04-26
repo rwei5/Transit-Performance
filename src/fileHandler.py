@@ -15,6 +15,7 @@ import Tkinter as tkinter
 from Tkinter import *
 import tkMessageBox
 import xlwt
+import csv
 
 # Constant Var
 type_xlsx =                     ".xlsx"
@@ -121,6 +122,32 @@ def _parseXLSX(filename):
 #
 #    return name, y, x
 
+# ##################################################################################
+# @brief                Get csv file writer
+#
+# @param full_name      File handler
+# @return               File writer
+# ##################################################################################
+def getCSVFileWriter(fd, fields):
+    return csv.DictWriter(fd, fieldnames=fields, lineterminator='\n')
+
+# ##################################################################################
+# @brief                Write csv file header
+#
+# @param full_name      File writer
+# @return
+# ##################################################################################
+def writeCSVFileHeader(fw):
+    fw.writeheader()
+
+# ##################################################################################
+# @brief                Write single line of a csv file
+#
+# @param full_name      File writer
+# @return
+# ##################################################################################
+def writeCSVRow(fw, profile):
+    fw.writerow(profile)
 
 # ##################################################################################
 # @brief                Open regular file

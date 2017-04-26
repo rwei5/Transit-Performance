@@ -10,9 +10,6 @@
 # ##################################################################################
 
 import numpy as np
-import xlrd
-import time
-import datetime
 from DEA import DEA
 import fileHandler as fh
 import os, platform
@@ -21,6 +18,7 @@ import json
 inputExcel = "../input/DEA_input_dataset.xlsx"
 outputPath = "../output/"
 outputFile = "cal_dea.json"
+outputCSV = "dea_csv.csv"
 outputExcel = "dea_excel.xls"
 
 headBuslineStr = "Bus Line"
@@ -37,7 +35,7 @@ sys_windows = "Windows"
 # ##################################################################################
 def parse(_excelfile, _head_busline_str, _head_input_set, _head_output_set):
     data = fh.parseInputFile(_excelfile)
-    table = data.sheets()[0] # sheet id = 0, get Aug data
+    table = data.sheets()[0]
     nrows = table.nrows
     ncols = table.ncols
 
@@ -89,28 +87,52 @@ def calDEA(_excelfile, _output_path, _head_busline_str, _head_input_set, _head_o
     dea = DEA(X,Y)
     dea.name_units(names)
     dict = dea.getResult()
+
+    # Write json file
     jsonStr = json.dumps(dict)
     fd = fh.openRegularFile(_output_path + outputFile)
     fh.writeRegularFile(fd, jsonStr)
     fh.closeRegularFile(fd)
 
-    # Extra parse
-    '''
-    excelHead = ["Line", "Miles Cost", "Time Cost", "Bus Quantity", "Customer", "Coefficiency"]
-    file, table1 = fh.excelWritableCreate("result")
-    for i in range (0,6):
-        fh.excelWritableCell(table1, 0, i, excelHead[i])
-        
-    for row in range(0, len(names)):
-        # Write to excel
-        fh.excelWritableCell(table1, row + 1, 0, names[row])
-        fh.excelWritableCell(table1, row + 1, 1, ("%.4f" % (_X[row][0])))
-        fh.excelWritableCell(table1, row + 1, 2, ("%.4f" % (_X[row][1])))
-        fh.excelWritableCell(table1, row + 1, 3, (_X[row][2]))
-        fh.excelWritableCell(table1, row + 1, 4, ("%.4f" % _Y[row][0]))
-        fh.excelWritableCell(table1, row + 1, 5, ("%.4f" % dict[names[row]]))
-    fh.excelWritableSave(file, _output_path + outputExcel)
-    '''
+    # Write CSV file
+    csv_filename = _output_path + outputCSV
+    csv_fd = fh.openRegularFile(csv_filename)
+    csv_fw = fh.getCSVFileWriter(csv_fd, ['Bus Line', 'Operational Efficiency'])
+    fh.writeCSVFileHeader(csv_fw)
+    for key, value in dict.items():
+        fh.writeCSVRow(csv_fw, {'Bus Line' : key, 'Operational Efficiency' : value})
+    fh.closeRegularFile(csv_fd)
+
+    # Write excel
+    ref_data = fh.parseInputFile(_excelfile)
+    ref_table = ref_data.sheets()[0]
+    ref_nrows = ref_table.nrows
+    ref_ncols = ref_table.ncols
+    rowcnt = 0
+    outfile, outtable = fh.excelWritableCreate("result")
+
+    # get busline id column
+    colcnt = 0
+    busline_column_id = 0
+    while(colcnt < ref_ncols):
+        if(str(ref_table.cell(rowcnt, colcnt).value) == _head_busline_str):
+            busline_column_id = colcnt
+            break
+        colcnt += 1
+
+    while(rowcnt < ref_nrows):
+        colcnt = 0
+        while(colcnt < ref_ncols):
+            fh.excelWritableCell(outtable, rowcnt, colcnt, ref_table.cell(rowcnt, colcnt).value)
+            colcnt += 1
+        if(0 == rowcnt):
+            fh.excelWritableCell(outtable, rowcnt, colcnt, 'Operational Efficiency')
+        else:
+            cur_busline = str(ref_table.cell(rowcnt, busline_column_id).value)
+            fh.excelWritableCell(outtable, rowcnt, colcnt, dict[cur_busline])
+        rowcnt += 1
+
+    fh.excelWritableSave(outfile, _output_path + outputExcel)
 
     return dict
 
@@ -122,6 +144,5 @@ if __name__ == "__main__":
         outputPath = outputPath.replace("/", "\\")
 
         calDEA(inputExcel, outputPath, headBuslineStr, headInputSet, headOutputSet)
-    #parse()
 
 

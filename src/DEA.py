@@ -1,5 +1,5 @@
 # ##################################################################################
-# Project               UTA Analysis
+# Project               Bus Line Analysis
 # (c) copyright         2016
 # Orgnization           University of Utah
 # 
@@ -181,7 +181,7 @@ class DEA(object):
         dict = {}
         while loop_flag:
             loop_flag = False
-            dict = dea.fit()
+            dict = self.fit()
             for k, v in dict.items():
                 if v < 0.0 or v > 1.0:
                     loop_flag = True

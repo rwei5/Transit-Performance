@@ -13,7 +13,6 @@
 
 import numpy as np
 from scipy.optimize import fmin_slsqp
-from scipy.optimize import fmin_cobyla
 
 
 # ##################################################################################
@@ -130,8 +129,6 @@ class DEA(object):
             # weights
             x0 = np.random.rand(d0) - 0.5
             x0 = fmin_slsqp(self.__target, x0, f_ieqcons=self.__constraints, args=(unit,))
-            #x0 = fmin_slsqp(self.__target, x0, f_ieqcons=self.__constraints, args=(unit,))
-            #x0 = fmin_cobyla(self.__target, x0, args=(unit,))
             # unroll weights
             self.input_w, self.output_w, self.lambdas = x0[:self.m], x0[self.m:(self.m+self.r)], x0[(self.m+self.r):]
             self.efficiency[unit] = self.__efficiency(unit)

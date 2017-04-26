@@ -1,5 +1,5 @@
 # ##################################################################################
-# Project               UTA Analysis
+# Project               Bus Line Analysis
 # (c) copyright         2016
 # Orgnization           University of Utah
 #
@@ -96,31 +96,6 @@ def _parseXLSX(filename):
     #print("Start parse input file " + filename)
     data = xlrd.open_workbook(filename)
     return data
-
-#def _parseXLSX(filename, sheet_id):
-#    print("Start parse input file " + filename)
-#    data = xlrd.open_workbook(filename)
-#    table = data.sheets()[sheet_id]
-#    nrows = table.nrows
-#    ncols = table.ncols
-#    y = []
-#    x = []
-#    name = []
-#    cnt = 0
-#    while cnt < nrows:
-#        # Get bus info from each line
-#        tempX = []
-#        tempY = []
-#        name.append(table.cell(cnt, 0).value.encode('utf-8'))
-#        tempY.append(float(table.cell(cnt, 2).value))
-#        tempX.append(float(table.cell(cnt, 3).value) + float(table.cell(cnt, 4).value))
-#        tempX.append(float(table.cell(cnt, 5).value))
-#        tempX.append(float(table.cell(cnt, 6).value))
-#        x.append(tempX)
-#        y.append(tempY)
-#        cnt = cnt + 1
-#
-#    return name, y, x
 
 # ##################################################################################
 # @brief                Get csv file writer

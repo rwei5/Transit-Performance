@@ -12,7 +12,7 @@
 import numpy as np
 from DEA import DEA
 import fileHandler as fh
-import os, platform
+import platform
 import json
 
 inputExcel = "../input/DEA_input_dataset.xlsx"

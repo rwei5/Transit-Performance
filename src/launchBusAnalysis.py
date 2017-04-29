@@ -390,6 +390,29 @@ def _btn_optimization(flag):
 
     # start thread to cal optimization and rank
     if flag == True:
+        # check if data is consistency
+        consistency_flag = True
+        with open(var_opt_equ_input.get()) as f:
+            dict_equality = json.load(f)
+        with open(var_opt_dea_input.get()) as f:
+            dict_dea = json.load(f)
+
+        set_equ = set()
+        for key, value in dict_equality.items():
+            if (False == consistency_flag):
+                break
+            for line in value['lines']:
+                set_equ.add(line)
+                if(line not in dict_dea):
+                    consistency_flag = False
+                    break
+
+        if(len(set_equ) != len(dict_dea)):
+            consistency_flag = False
+
+        if(False == consistency_flag):
+            tkMessageBox.showwarning("Error", "The data of Equality are not the same as Operational Efficiency")
+            return
         thread.start_new_thread(_optimize_thread, (var_optimization_label,))
 
 

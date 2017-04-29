@@ -34,9 +34,9 @@ def cal_rank(input_cal, input_dea, output_path):
         for j in coeff_weight:
             outputFileName = output_path + outputExcel + "_top_" + str(i) + "_operational_efficiency_weight_" + str(j) + ".xls"
             #excelHead = ["Bus Line", "Coeff Weight", "Equality Weight", "Grade", "Total Coefficient", "Total Population Served"]
-            excelHead = ["Bus Line", "Disadvantaged Population Served"]
+            excelHead = ["Bus Line", "Disadvantaged Population Served", "Operational Efficiency Score"]
             file, table = fh.excelWritableCreate("result")
-            for k in range (0,2):
+            for k in range (0,len(excelHead)):
                 fh.excelWritableCell(table, 0, k, excelHead[k])
         
             dict_rank = {}
@@ -66,7 +66,8 @@ def cal_rank(input_cal, input_dea, output_path):
                 #fh.excelWritableCell(table, row, 1, str(j))
                 #fh.excelWritableCell(table, row, 2, str("%.2f" % (1 - j)))
                 fh.excelWritableCell(table, row, 1, str("%.2f " % (dict_people[e[0]])))
-                total_coeff += dict_dea[e[0]]
+                fh.excelWritableCell(table, row, 2, str("%.4f " % (dict_dea[e[0]] * i)))
+                total_coeff += dict_dea[e[0]] * i
                 dict_bus.add(e[0])
                 cnt += 1
                 row += 1

@@ -68,7 +68,7 @@ def getResults(input_cal, input_dea, output_path, glpkPath):
     remain_buslines = len(dict_dea)
     coeff_weight = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
     output_excel_file = output_path + outputExcel + time.strftime('%Y-%m-%d-%H-%I-%M-%S',time.localtime(time.time())) + ".xls"
-    excelHead = ["Remain BusLine", "Coeff Weight", "Equality Weight", "Z1 for Coeff", "Z2 for Equality", "Z3 for Equality not Normalize"]
+    excelHead = ["Remain BusLine", "Operational Efficiency Weight", "Equality Weight", "Z1 for Coeff", "Z2 for Equality", "Z3 for Equality not Normalize"]
     file, table = fh.excelWritableCreate("result")
     for i in range (0,6):
         fh.excelWritableCell(table, 0, i, excelHead[i])

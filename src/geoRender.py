@@ -8,7 +8,7 @@ import sys
 shpBlckPath = "..\\input\\Utah_blck_grp\\UT_blck_grp_2010.shp"
 shpBusRoutes = "..\\input\\BusRoutes_UTA\\BusRoutes_UTA.shp"
 
-def drawMapView(shp_blck_path, shp_bus_routes, bus_line_set):
+def drawMapView(shp_blck_path, shp_bus_routes, bus_line_set, populationf_field, busline_id_field):
     # get max and min population for density
     ds_blck1 = ogr.Open(shp_blck_path, 0)
     #nlay_blck1 = ds_blck1.GetLayerCount()
@@ -16,13 +16,13 @@ def drawMapView(shp_blck_path, shp_bus_routes, bus_line_set):
     population_min = sys.maxint
     population_max = 0
     for feat1 in lyr_blck1:
-        cur_population = 0
-        cur_population += int(feat1.GetField("Age"))
-        cur_population += int(feat1.GetField("Race"))
-        cur_population += int(feat1.GetField("Poverty"))
-        cur_population += int(feat1.GetField("Transporta"))
-        cur_population += int(feat1.GetField("Unemploy"))
-        cur_population += int(feat1.GetField("Disability"))
+        cur_population = int(feat1.GetField(populationf_field))
+        #cur_population += int(feat1.GetField("Age"))
+        #cur_population += int(feat1.GetField("Race"))
+        #cur_population += int(feat1.GetField("Poverty"))
+        #cur_population += int(feat1.GetField("Transporta"))
+        #cur_population += int(feat1.GetField("Unemploy"))
+        #cur_population += int(feat1.GetField("Disability"))
         population_max = max(cur_population, population_max)
         population_min = min(cur_population, population_min)
 
@@ -52,13 +52,13 @@ def drawMapView(shp_blck_path, shp_bus_routes, bus_line_set):
 
     # Read all features in layer and store as paths
     for feat in lyr_blck:
-        cur_population = 0
-        cur_population += int(feat.GetField("Age"))
-        cur_population += int(feat.GetField("Race"))
-        cur_population += int(feat.GetField("Poverty"))
-        cur_population += int(feat.GetField("Transporta"))
-        cur_population += int(feat.GetField("Unemploy"))
-        cur_population += int(feat.GetField("Disability"))
+        cur_population = int(feat.GetField(populationf_field))
+        #cur_population += int(feat.GetField("Age"))
+        #cur_population += int(feat.GetField("Race"))
+        #cur_population += int(feat.GetField("Poverty"))
+        #cur_population += int(feat.GetField("Transporta"))
+        #cur_population += int(feat.GetField("Unemploy"))
+        #cur_population += int(feat.GetField("Disability"))
 
         geom = feat.geometry()
         codes = []
@@ -99,7 +99,7 @@ def drawMapView(shp_blck_path, shp_bus_routes, bus_line_set):
 
     # Read all features in layer and store as paths
     for feat in lyr_route:
-        cur_bus_line =  feat.GetField("LineAbbr")
+        cur_bus_line =  feat.GetField(busline_id_field)
         if cur_bus_line not in bus_line_set:
             continue
         geom = feat.geometry()
@@ -132,4 +132,4 @@ def drawMapView(shp_blck_path, shp_bus_routes, bus_line_set):
 
 if __name__ == '__main__':
     bus_line = set(['200', '217'])
-    drawMapView(shpBlckPath, shpBusRoutes, bus_line)
+    drawMapView(shpBlckPath, shpBusRoutes, bus_line, 'Age', 'LineAbbr')

@@ -11,9 +11,6 @@
 import shapefile
 import sys, os
 import xlrd
-import Tkinter as tkinter
-from Tkinter import *
-import tkMessageBox
 import xlwt
 import csv
 
@@ -212,15 +209,8 @@ class FileReader:
         self.busRoutesRecordDicts = self.createDicts(self.getBusRoutesRecords(), self.getBusRoutesFields())
 
     def readData(self, fileName):
-        try:
-            shp_reader = shapefile.Reader(fileName)
-            return shp_reader
-        except:
-            tkMessageBox.showwarning(
-            "Open file",
-            "Cannot open these file\n"
-            )
-            return None
+        shp_reader = shapefile.Reader(fileName)
+        return shp_reader
 
     def createDicts(self, records, fields):
         maps = []

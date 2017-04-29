@@ -32,7 +32,7 @@ def cal_rank(input_cal, input_dea, output_path):
     coeff_weight = [0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0]
     for i in top:
         for j in coeff_weight:
-            outputFileName = output_path + outputExcel + "_top_" + str(i) + "_efficiency_weight_" + str(j) + ".xls"
+            outputFileName = output_path + outputExcel + "_top_" + str(i) + "_operational_efficiency_weight_" + str(j) + ".xls"
             #excelHead = ["Bus Line", "Coeff Weight", "Equality Weight", "Grade", "Total Coefficient", "Total Population Served"]
             excelHead = ["Bus Line", "Disadvantaged Population Served"]
             file, table = fh.excelWritableCreate("result")

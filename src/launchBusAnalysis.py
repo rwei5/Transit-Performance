@@ -659,7 +659,7 @@ def _btn_equ_busStop_setting_action():
 
     frame_col = 0
     # put population frame
-    stop_frame = LabelFrame(equ_busStop_setting_root, text="Select served population field", padx=10, pady=10, width=100,
+    stop_frame = LabelFrame(equ_busStop_setting_root, text="Select stop id field", padx=10, pady=10, width=100,
                                height=100, background='white')
     stop_frame.grid(sticky='n', row=0, column=frame_col)
     frame_col += 1

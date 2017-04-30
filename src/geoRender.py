@@ -1,3 +1,14 @@
+# ##################################################################################
+# Project               Bus Line Analysis
+# (c) copyright         2016
+# Orgnization           University of Utah
+#
+# @file                 geoRender.py
+# Description           Render the map view of bus lines and blocks
+# Author                Yongjian Mu
+# Date                  2/13/2017
+# ##################################################################################
+
 from osgeo import ogr
 import numpy as np
 import matplotlib.path as mpath

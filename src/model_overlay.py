@@ -1,12 +1,12 @@
 # ##################################################################################
-# Project               UTA Analysis
+# Project               Bus Line Analysis
 # (c) copyright         2016
 # Orgnization           University of Utah
 # 
 # @file                 model_overlay.py
-# Description           Implementation of model overlay
+# Description           Generate of model overlay lp file
 # Author                Yongjian Mu
-# Date                  12/21/2015
+# Date                  12/21/2016
 # ##################################################################################
 
 import sys

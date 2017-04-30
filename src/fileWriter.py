@@ -1,3 +1,14 @@
+# ##################################################################################
+# Project               Bus Line Analysis
+# (c) copyright         2016
+# Orgnization           University of Utah
+#
+# @file                 fileWriter.py
+# Description           Write Specify files
+# Author                Yi Ou
+# Date                  9/15/2016
+# ##################################################################################
+
 import shapefile
 import csv
 from shapely.ops import polygonize_full, polygonize, cascaded_union
@@ -69,11 +80,8 @@ class fileWriter:
         self.w.field(population_name,'C','40')
 
         for k,poly in enumerate(polylist):
-            try:
-                self.w.poly(parts=[poly])
-                self.w.record(k, resultMap[k][population_name])
-            except ShapefileException:
-                print ("can't write this poly")
+            self.w.poly(parts=[poly])
+            self.w.record(k, resultMap[k][population_name])
 
         self.w.save('shapefiles/test/polygonPieces_filtered')
 

@@ -20,7 +20,7 @@ import json
 import xlrd
 from osgeo import ogr
 
-#import cal_equality as ce
+from cal_equality import CalEquality
 import DEAadapter as da
 import cal_glpk as cg
 import cal_rank as cr
@@ -31,26 +31,22 @@ sys_windows = "Windows"
 
 FRAME_START_X =                 50
 FRAME_START_Y =                 50
-FRAME_Width =                   1600
+FRAME_Width =                   1650
 FRAME_Height =                  600
 
-EqualityFlag =                  False
-DEAFlag =                       False
-
-inputEqu = "cal_equality.json"
-inputDEA = "cal_dea.json"
+inputEqu = "cal_equality.csv and cal_equality.json"
+inputDEA = "cal_dea.csv and cal_dea.json"
 outputRet = "glpk_result"
 outputPath = "../output"
 outputRankPath = "../output/rank/"
 shpBlckPath = "..\\input\\Utah_blck_grp\\UT_blck_grp_2010.shp"
 shpBusRoutes = "..\\input\\BusRoutes_UTA\\BusRoutes_UTA.shp"
 
-
 str_dea_excel_busline = ""
 set_dea_excel_input = set()
 set_dea_excel_output = set()
 str_equ_busRoutes_shp_bus_id = ""
-str_equ_blck_shp_blck_id = ""
+#str_equ_blck_shp_blck_id = ""
 str_equ_blck_shp_population_id = ""
 str_equ_stop_shp_stop_id = ""
 
@@ -114,22 +110,22 @@ def _btn_dea_stop_input_action():
 '''
 
 def _equ_popup_window_thread(argArray, var_equ_popup):
-    #ce.mainFunc(argArray[0], argArray[1], argArray[2], argArray[3], argArray[4], argArray[5], argArray[6], argArray[7], argArray[8])
-    EqualityFlag = True
+    cal = CalEquality(argArray[0], argArray[1], argArray[2], argArray[3], argArray[4], argArray[5], argArray[6], argArray[7])
+    cal.calculate(var_output_path_input.get(), str_equ_blck_shp_population_id, argArray[8])
     # display results
     var_equ_popup.set("Output file generated in : " + var_output_path_input.get() + inputEqu)
 
-def _equ_popup_window(stops_txt, stops_time_txt, trips_txt, busStop, block, busRoutes, outputpath, excelfile, stopfile):
+def _equ_popup_window(stops_txt, stops_time_txt, trips_txt, busStop, block, busRoutes, stop_id, route_id, method):
     top = Toplevel()
     top.geometry(str(FRAME_Width / 2) + "x" + str(FRAME_Height))
     var_equ_popup = StringVar()
     var_equ_popup.set('Calculating Equality...It may take a long while, please wait...')
     label_equ_status = Label(top, textvariable = var_equ_popup)
     label_equ_status.grid(sticky = 'w', row = 0, column = 0)
-    argArray = [stops_txt, stops_time_txt, trips_txt, busStop, block, busRoutes, outputpath]
+    argArray = [stops_txt, stops_time_txt, trips_txt, busStop, block, busRoutes, stop_id, route_id, method]
     thread.start_new_thread(_equ_popup_window_thread, (argArray, var_equ_popup,))
 
-def _btn_cal_equality_action():
+def _btn_cal_equality_action(method):
     check_flag = True
     if(0 == len(var_equ_stops_txt_input.get())):
         check_flag = False
@@ -145,20 +141,19 @@ def _btn_cal_equality_action():
         check_flag = False
     if(0 == len(var_output_path_input.get())):
         check_flag = False
-    #if(0 == len(var_dea_runcut_input.get())):
-    #    check_flag = False
-    #if(0 == len(var_dea_stop_input.get())):
-    #    check_flag = False
+    if(0 == len(str_equ_busRoutes_shp_bus_id)):
+        check_flag = False
+    if(0 == len(str_equ_stop_shp_stop_id)):
+        check_flag = False
 
     if check_flag == False:
-        tkMessageBox.showwarning( "Input file missing", "Please fill item 1 ~ 9")
+        tkMessageBox.showwarning( "Input file missing", "Please fill item 1 ~ 10")
         return
 
-    _equ_popup_window(var_equ_stops_txt_input.get(), var_equ_stops_times_txt_input.get(), var_equ_trips_txt_input.get(), var_equ_busStop_shp_input.get(), var_equ_block_shp_input.get(), var_equ_busRoutes_shp_input.get(), var_output_path_input.get())
+    _equ_popup_window(var_equ_stops_txt_input.get(), var_equ_stops_times_txt_input.get(), var_equ_trips_txt_input.get(), var_equ_busStop_shp_input.get(), var_equ_block_shp_input.get(), var_equ_busRoutes_shp_input.get(), str_equ_stop_shp_stop_id, str_equ_busRoutes_shp_bus_id, method)
 
 def _dea_popup_window_thread(argArray, var_dea_popup):
     da.calDEA(var_dea_excel_input.get(), argArray[0], argArray[1], argArray[2], argArray[3])
-    DEAFlag = True
     # display results
     var_dea_popup.set("Output file " + inputDEA + " has generated in " + var_output_path_input.get())
 
@@ -166,14 +161,11 @@ def _dea_popup_window(_busline, _input, _output, _outputpath):
     top = Toplevel()
     top.geometry(str(FRAME_Width / 2) + "x" + str(FRAME_Height))
     var_dea_popup = StringVar()
-    if(EqualityFlag == False):
-    #    var_dea_popup.set('Please calculate equality first!')
-    #else:
-        var_dea_popup.set('Calculating DEA...please wait...')
-        label_dea_status = Label(top, textvariable = var_dea_popup)
-        label_dea_status.grid(sticky = 'w', row = 0, column = 0)
-        argArray = [_outputpath, _busline, _input, _output]
-        thread.start_new_thread(_dea_popup_window_thread, (argArray, var_dea_popup,))
+    var_dea_popup.set('Calculating DEA...please wait...')
+    label_dea_status = Label(top, textvariable = var_dea_popup)
+    label_dea_status.grid(sticky = 'w', row = 0, column = 0)
+    argArray = [_outputpath, _busline, _input, _output]
+    thread.start_new_thread(_dea_popup_window_thread, (argArray, var_dea_popup,))
 
 
 def _btn_cal_dea_action():
@@ -616,6 +608,7 @@ def _btn_equ_block_setting_action():
     btn_equ_input_pop_add.pack()
 
     # put blck id frame
+    '''
     block_frame = LabelFrame(equ_block_setting_root, text="Select block id field", padx=10, pady=10,
                                    width=100,
                                    height=100, background='white')
@@ -635,6 +628,7 @@ def _btn_equ_block_setting_action():
 
     btn_equ_input_blck_add = Button(block_frame, text='Set', command=_btn_equ_block_id_add_action)
     btn_equ_input_blck_add.pack()
+    '''
 
     # Done button
     def _btn_done():
@@ -744,7 +738,7 @@ btn_equ_busRoutes_shp_setting.grid(sticky = 'w', row = equality_row + 1, column 
 equality_row += 2
 
 # Equality stops input txt file
-label_equ_stops_txt_input = Label(equ_frame, text = 'Please choose the equality GTFS stops input txt file').grid(sticky = 'w', row = equality_row, column = 0)
+label_equ_stops_txt_input = Label(equ_frame, text = 'Please choose the equality GTFS routes input txt file').grid(sticky = 'w', row = equality_row, column = 0)
 btn_equ_stops_txt_input = Button(equ_frame, text = '7. Browser', command = _btn_equ_stops_txt_input_action)
 btn_equ_stops_txt_input.grid(sticky = 'w', row = equality_row, column = 1)
 var_equ_stops_txt_input = StringVar()
@@ -782,8 +776,11 @@ equality_row += 2
 # Generate equality results button
 label_cal_equality = Label(equ_frame, text = 'Calculate Spatial Equality. Require: 1 ~ 10').grid(sticky = 'w', row = equality_row, column = 0)
 equality_row += 1
-btn_cal_equality = Button(equ_frame, text = 'Calculate Spatial Equality', command = _btn_cal_equality_action)
-btn_cal_equality.grid(sticky = 'w', row = equality_row, column = 0)
+btn_cal_equality_overlap = Button(equ_frame, text = 'Calculate Overlap', command = lambda : _btn_cal_equality_action("overlap"))
+btn_cal_equality_overlap.grid(sticky = 'w', row = equality_row, column = 0)
+equality_row += 1
+btn_cal_equality_centroid = Button(equ_frame, text = 'Calculate Centroid', command = lambda: _btn_cal_equality_action("centroid"))
+btn_cal_equality_centroid.grid(sticky = 'w', row = equality_row, column = 0)
 equality_row += 1
 
 

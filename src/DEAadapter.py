@@ -52,7 +52,10 @@ def parse(_excelfile, _head_busline_str, _head_input_set, _head_output_set):
         while(colcnt < ncols):
             # check bus line name
             if(str(table.cell(0, colcnt).value) == _head_busline_str):
-                names.append(str(int(table.cell(rowcnt, colcnt).value)))
+                if (isinstance(table.cell(rowcnt, colcnt).value, float)):
+                    names.append(str(int(table.cell(rowcnt, colcnt).value)))
+                else:
+                    names.append(str(table.cell(rowcnt, colcnt).value))
             #check input
             if (str(table.cell(0, colcnt).value) in _head_input_set):
                 tempX.append(float(table.cell(rowcnt, colcnt).value))
@@ -128,7 +131,11 @@ def calDEA(_excelfile, _output_path, _head_busline_str, _head_input_set, _head_o
         if(0 == rowcnt):
             fh.excelWritableCell(outtable, rowcnt, colcnt, 'Operational Efficiency')
         else:
-            cur_busline = str(int(ref_table.cell(rowcnt, busline_column_id).value))
+            cur_busline = ""
+            if (isinstance(ref_table.cell(rowcnt, busline_column_id).value, float)):
+                cur_busline = str(int(ref_table.cell(rowcnt, busline_column_id).value))
+            else:
+                cur_busline = str(ref_table.cell(rowcnt, busline_column_id).value)
             fh.excelWritableCell(outtable, rowcnt, colcnt, dict[cur_busline])
         rowcnt += 1
 

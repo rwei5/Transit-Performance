@@ -1,3 +1,14 @@
+# ##################################################################################
+# Project               Bus Line Analysis
+# (c) copyright         2016
+# Orgnization           University of Utah
+#
+# @file                 cal_glpk.py
+# Description           Use glpk package to optimize model
+# Author                Yongjian Mu
+# Date                  2/13/2017
+# ##################################################################################
+
 # C:\Software\winglpk-4.61\glpk-4.61\w64\glpsol --lp .\model_overlay.lp -o 2
 import gurobipy as gb
 import math
@@ -77,7 +88,7 @@ def getResults(input_cal, input_dea, output_path, glpkPath):
     for p in range (1, remain_buslines + 1):
         for w in coeff_weight:
             mo.mainFunc(p, w, 1 - w)
-            retFile = output_path + outputRet + "_remain_" + str(p) + "_weight_coeff_" + str(w) + ".txt"
+            retFile = output_path + outputRet + "_remain_" + str(p) + "_weight_operational_efficiency_" + str(w) + ".txt"
             # use glpk to calculate results
             current_output_file = glpkPath + glpkSuffix + inputLpFile + glpkFlag + retFile
             os.system(current_output_file)

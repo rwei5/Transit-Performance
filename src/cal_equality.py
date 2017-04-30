@@ -1,5 +1,5 @@
 # ##################################################################################
-# Project               UTA Analysis
+# Project               Bus Line Analysis
 # (c) copyright         2016
 # Orgnization           University of Utah
 #
@@ -33,11 +33,12 @@ excelfile = "../input/DEA/UTA Runcut File  Aug2016.xlsx"
 stopfile  = "../input/DEA/Bus Stop Ridership Apr2016 Aug2016.xlsx"
 outputPath = "../output/"
 outputFile = "cal_equality.json"
+outputCSV = "equality_csv.csv"
 
 sys_windows = "Windows"
 
 class CalEquality:
-    def __init__ (self, _rf, _stf, _tf, _bus_stops, _block, _bus_routes, _excel_file, _stop_file, stop_id, route_id):
+    def __init__ (self, _rf, _stf, _tf, _bus_stops, _block, _bus_routes, stop_id, route_id):
 
         # user defined id.
         self.stop_id = stop_id
@@ -49,8 +50,8 @@ class CalEquality:
         self.tf = _tf
 
         self.bus_routes = _bus_routes
-        self.excel_file = _excel_file
-        self.stop_file = _stop_file
+        #self.excel_file = _excel_file
+        #self.stop_file = _stop_file
 
         self.blocks = []
         self.routes = []
@@ -128,7 +129,7 @@ class CalEquality:
     """
     def reduceRoutes(self):
 
-        shortNames = DEAadapter.parse(self.bus_routes, self.excel_file, self.stop_file)[0]
+        #shortNames = DEAadapter.parse(self.bus_routes, self.excel_file, self.stop_file)[0]
 
         # map id to route, and merge.
         GTFSinfo = GTFSReader(self.rf, self.stf, self.tf)
@@ -675,63 +676,57 @@ class CalEquality:
     '''
         Choose calculation methods.
     '''
-    def calculate(self, population_name,  method = "overlap"):
+    def calculate(self, output_path, population_name,  method = "overlap"):
         resultMap = dict()
         if method == "overlap":
             resultMap = self.linesOverLap(population_name)
+            # Write CSV
+            csv_filename = output_path + outputCSV
+            csv_fd = fh.openRegularFile(csv_filename)
+            csv_fw = fh.getCSVFileWriter(csv_fd, ['ID', 'Total Served People', 'Bus line'])
+            fh.writeCSVFileHeader(csv_fw)
+            bus_line_str = ""
+            for key, value in resultMap.items():
+                for line in value['lines']:
+                    bus_line_str += line + " "
+                fh.writeCSVRow(csv_fw, {'ID': key, 'Total Served People': value['sum'], 'Bus line' : bus_line_str})
+            fh.closeRegularFile(csv_fd)
         elif method == "centroid":
             resultMap = self.calDisByCentroidDistance(population_name)
+            # Write CSV
+            csv_filename = output_path + outputCSV
+            csv_fd = fh.openRegularFile(csv_filename)
+            csv_fw = fh.getCSVFileWriter(csv_fd, ['ID', 'Total Served People', 'Bus line', 'Block ID'])
+            fh.writeCSVFileHeader(csv_fw)
+            bus_line_str = ""
+            blocks_str = ""
+            for key, value in resultMap.items():
+                for line in value['lines']:
+                    bus_line_str += line + " "
+                for block in value['blocks']:
+                    blocks_str += str(block) + " "
+                fh.writeCSVRow(csv_fw, {'ID': key, 'Total Served People': value['sum'], 'Bus line': bus_line_str, 'Block ID' : blocks_str})
+            fh.closeRegularFile(csv_fd)
 
+        # dump json file
+        jsonStr = json.dumps(resultMap)
+        fd = fh.openRegularFile(output_path + outputFile)
+        fh.writeRegularFile(fd, jsonStr)
+        fh.closeRegularFile(fd)
         return resultMap
-
-def mainFunc(v_sf, v_stf, v_tf, v_busStops, v_block, v_busRoutes, v_outputpath, v_excelfile, v_stopfile):
-    cal = CalEquality(v_sf, v_stf, v_tf, v_busStops, v_block, v_busRoutes, v_excelfile, v_stopfile)
-    cal.regenerate_filter_shapefile()
-    data = cal.linesOverLap()
-    # #dump json file
-    jsonStr = json.dumps(data)
-    fd = fh.openRegularFile(v_outputpath + outputFile)
-    fh.writeRegularFile(fd, jsonStr)
-    fh.closeRegularFile(fd)
-
 
 if __name__ == '__main__':
     # check OS
     if(platform.system() == sys_windows):
         rf = rf.replace("/", "\\")
         stf = stf.replace("/", "\\")
-        tf = tf.replace("/", "\\");
+        tf = tf.replace("/", "\\")
         busStops = busStops.replace("/", "\\")
         block = block.replace("/", "\\")
         busRoutes = busRoutes.replace("/", "\\")
         outputFile = outputFile.replace("/", "\\")
-    # new a calculator
-    # cal = CalEquality()
-
-    # print (cal.getrpMap())
-    # #cal.calUnion_shp()
-    # #cal.calUnion()
-    # #cal.compareDiffWays()
-
 
     stop_id = "StopId"
     route_id = "RouteId"
-    cal = CalEquality(rf, stf, tf, busStops, block, busRoutes, excelfile, stopfile, stop_id, route_id)
-
-    cal.calculate("Age", "overlap")
-    #cal.handleMagicPiece()
-
-    # cal.regenerate_filter_shapefile()
-
-    # #print (cal.linesOverLap())
-
-    # #data = cal.linesOverLap(choice = 'normal')
-    # data = cal.linesOverLap()
-    # # print "###### Data ######"
-    # # print data
-    # # #cal.calDisByCentroidDistance()
-    # # #dump json file
-    # jsonStr = json.dumps(data)
-    # fd = fh.openRegularFile(outputPath + outputFile)
-    # fh.writeRegularFile(fd, jsonStr)
-    # fh.closeRegularFile(fd)
+    cal = CalEquality(rf, stf, tf, busStops, block, busRoutes, stop_id, route_id)
+    cal.calculate(outputPath, "Age", "overlap")

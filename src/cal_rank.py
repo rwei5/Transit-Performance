@@ -1,6 +1,15 @@
-import math
+# ##################################################################################
+# Project               Bus Line Analysis
+# (c) copyright         2016
+# Orgnization           University of Utah
+#
+# @file                 cal_rank.py
+# Description           Calculate the solution by remain bus lines, operational efficiency and equality
+# Author                Yongjian Mu
+# Date                  2/13/2017
+# ##################################################################################
+
 import os, platform, sys
-import time
 import json
 import fileHandler as fh
 

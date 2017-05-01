@@ -31,7 +31,7 @@ sys_windows = "Windows"
 
 FRAME_START_X =                 50
 FRAME_START_Y =                 50
-FRAME_Width =                   1650
+FRAME_Width =                   1440
 FRAME_Height =                  600
 
 inputEqu = "cal_equality.csv and cal_equality.json"
@@ -696,6 +696,7 @@ root = Tk()
 root.title('Bus Line Performance Analysis')
 root.geometry(str(FRAME_Width) + "x" + str(FRAME_Height) + "+" + str(FRAME_START_X) + "+" + str(FRAME_START_Y))
 root.configure(background = 'White')
+root.resizable(width=True, height=True)
 
 equality_row = 0
 
@@ -705,76 +706,76 @@ equ_frame.grid(sticky = 'n', row=equality_row, column=0)
 equality_row += 1
 
 # Equality bus stop input shape file
-label_equ_busStop_shp_input = Label(equ_frame, text = 'Please choose the equality bus stop input shape file').grid(sticky = 'w', row = equality_row, column = 0)
+label_equ_busStop_shp_input = Label(equ_frame, text = 'Please choose the equality bus stop input shape file', background = 'light sky blue').grid(sticky = 'w', row = equality_row, column = 0)
 btn_equ_busStop_shp_input = Button(equ_frame, text = '1. Browser', command = _btn_equ_busStop_shp_input_action)
 btn_equ_busStop_shp_input.grid(sticky = 'w', row = equality_row, column = 1)
 var_equ_busStop_shp_input = StringVar()
-label_equ_busStop_shp_display = Label(equ_frame, textvariable = var_equ_busStop_shp_input, width = 50, anchor = E)
+label_equ_busStop_shp_display = Label(equ_frame, textvariable = var_equ_busStop_shp_input, width = 40, anchor = E)
 label_equ_busStop_shp_display.grid(sticky = 'w', row = equality_row + 1, column = 0)
 btn_equ_busStop_shp_setting = Button(equ_frame, text = '2. Setting', command = _btn_equ_busStop_setting_action)
 btn_equ_busStop_shp_setting.grid(sticky = 'w', row = equality_row + 1, column = 1)
 equality_row += 2
 
 # Equality block input shape file
-label_equ_block_shp_input = Label(equ_frame, text = 'Please choose the equality block input shape file').grid(sticky = 'w', row = equality_row, column = 0)
+label_equ_block_shp_input = Label(equ_frame, text = 'Please choose the equality block input shape file', background = 'light sky blue').grid(sticky = 'w', row = equality_row, column = 0)
 btn_equ_block_shp_input = Button(equ_frame, text = '3. Browser', command = _btn_equ_block_shp_input_action)
 btn_equ_block_shp_input.grid(sticky = 'w', row = equality_row, column = 1)
 var_equ_block_shp_input = StringVar()
-label_equ_block_shp_display = Label(equ_frame, textvariable = var_equ_block_shp_input, width = 50, anchor = E)
+label_equ_block_shp_display = Label(equ_frame, textvariable = var_equ_block_shp_input, width = 40, anchor = E)
 label_equ_block_shp_display.grid(sticky = 'w', row = equality_row + 1, column = 0)
 btn_equ_block_shp_setting = Button(equ_frame, text = '4. Setting', command = _btn_equ_block_setting_action)
 btn_equ_block_shp_setting.grid(sticky = 'w', row = equality_row + 1, column = 1)
 equality_row += 2
 
 # Equality bus routes input shape file
-label_equ_busRoutes_shp_input = Label(equ_frame, text = 'Please choose the equality bus routes input shape file').grid(sticky = 'w', row = equality_row, column = 0)
+label_equ_busRoutes_shp_input = Label(equ_frame, text = 'Please choose the equality bus routes input shape file', background = 'light sky blue').grid(sticky = 'w', row = equality_row, column = 0)
 btn_equ_busRoutes_shp_input = Button(equ_frame, text = '5. Browser', command = _btn_equ_busRoutes_shp_input_action)
 btn_equ_busRoutes_shp_input.grid(sticky = 'w', row = equality_row, column = 1)
 var_equ_busRoutes_shp_input = StringVar()
-label_equ_busRoutes_shp_display = Label(equ_frame, textvariable = var_equ_busRoutes_shp_input, width = 50, anchor = E)
+label_equ_busRoutes_shp_display = Label(equ_frame, textvariable = var_equ_busRoutes_shp_input, width = 40, anchor = E)
 label_equ_busRoutes_shp_display.grid(sticky = 'w', row = equality_row + 1, column = 0)
 btn_equ_busRoutes_shp_setting = Button(equ_frame, text = '6. Setting', command = _btn_equ_busRoutes_setting_action)
 btn_equ_busRoutes_shp_setting.grid(sticky = 'w', row = equality_row + 1, column = 1)
 equality_row += 2
 
 # Equality stops input txt file
-label_equ_stops_txt_input = Label(equ_frame, text = 'Please choose the equality GTFS routes input txt file').grid(sticky = 'w', row = equality_row, column = 0)
+label_equ_stops_txt_input = Label(equ_frame, text = 'Please choose the equality GTFS routes input txt file', background = 'light sky blue').grid(sticky = 'w', row = equality_row, column = 0)
 btn_equ_stops_txt_input = Button(equ_frame, text = '7. Browser', command = _btn_equ_stops_txt_input_action)
 btn_equ_stops_txt_input.grid(sticky = 'w', row = equality_row, column = 1)
 var_equ_stops_txt_input = StringVar()
-label_equ_stops_txt_display = Label(equ_frame, textvariable = var_equ_stops_txt_input, width = 50, anchor = E)
+label_equ_stops_txt_display = Label(equ_frame, textvariable = var_equ_stops_txt_input, width = 40, anchor = E)
 label_equ_stops_txt_display.grid(sticky = 'w', row = equality_row + 1, column = 0)
 equality_row += 2
 
 # Equality stops times input txt file
-label_equ_stops_times_txt_input = Label(equ_frame, text = 'Please choose the equality GTFS stops times input txt file').grid(sticky = 'w', row = equality_row, column = 0)
+label_equ_stops_times_txt_input = Label(equ_frame, text = 'Please choose the equality GTFS stops times input txt file', background = 'light sky blue').grid(sticky = 'w', row = equality_row, column = 0)
 btn_equ_stops_times_txt_input = Button(equ_frame, text = '8. Browser', command = _btn_equ_stops_times_txt_input_action)
 btn_equ_stops_times_txt_input.grid(sticky = 'w', row = equality_row, column = 1)
 var_equ_stops_times_txt_input = StringVar()
-label_equ_stops_times_txt_display = Label(equ_frame, textvariable = var_equ_stops_times_txt_input, width = 50, anchor = E)
+label_equ_stops_times_txt_display = Label(equ_frame, textvariable = var_equ_stops_times_txt_input, width = 40, anchor = E)
 label_equ_stops_times_txt_display.grid(sticky = 'w', row = equality_row + 1, column = 0)
 equality_row += 2
 
 # Equality trips input txt file
-label_equ_trips_txt_input = Label(equ_frame, text = 'Please choose the equality GTFS trips input txt file').grid(sticky = 'w', row = equality_row, column = 0)
+label_equ_trips_txt_input = Label(equ_frame, text = 'Please choose the equality GTFS trips input txt file', background = 'light sky blue').grid(sticky = 'w', row = equality_row, column = 0)
 btn_equ_trips_txt_input = Button(equ_frame, text = '9. Browser', command = _btn_equ_trips_txt_input_action)
 btn_equ_trips_txt_input.grid(sticky = 'w', row = equality_row, column = 1)
 var_equ_trips_txt_input = StringVar()
-label_equ_trips_txt_display = Label(equ_frame, textvariable = var_equ_trips_txt_input, width = 50, anchor = E)
+label_equ_trips_txt_display = Label(equ_frame, textvariable = var_equ_trips_txt_input, width = 40, anchor = E)
 label_equ_trips_txt_display.grid(sticky = 'w', row = equality_row + 1, column = 0)
 equality_row += 2
 
 # Output file directory
-label_output_path_input = Label(equ_frame, text = 'Please choose the output directory').grid(sticky = 'w', row = equality_row, column = 0)
+label_output_path_input = Label(equ_frame, text = 'Please choose the output directory', background = 'light sky blue').grid(sticky = 'w', row = equality_row, column = 0)
 btn_output_path_input = Button(equ_frame, text = '10. Browser', command = _btn_output_path_input_action)
 btn_output_path_input.grid(sticky = 'w', row = equality_row, column = 1)
 var_output_path_input = StringVar()
-label_output_path_display = Label(equ_frame, textvariable = var_output_path_input, width = 50, anchor = E)
+label_output_path_display = Label(equ_frame, textvariable = var_output_path_input, width = 40, anchor = E)
 label_output_path_display.grid(sticky = 'w', row = equality_row + 1, column = 0)
 equality_row += 2
 
 # Generate equality results button
-label_cal_equality = Label(equ_frame, text = 'Calculate Spatial Equality. Require: 1 ~ 10').grid(sticky = 'w', row = equality_row, column = 0)
+label_cal_equality = Label(equ_frame, text = 'Calculate Spatial Equality. Require: 1 ~ 10', background = 'light sky blue').grid(sticky = 'w', row = equality_row, column = 0)
 equality_row += 1
 btn_cal_equality_overlap = Button(equ_frame, text = 'Calculate Overlap', command = lambda : _btn_cal_equality_action("overlap"))
 btn_cal_equality_overlap.grid(sticky = 'w', row = equality_row, column = 0)
@@ -793,11 +794,11 @@ dea_frame.grid(sticky = 'n', row=dea_row, column=4)
 dea_row += 1
 
 # Optimize equ input
-label_dea_excel_input = Label(dea_frame, text = 'Please choose the dea input excel file').grid(sticky = 'w', row = dea_row, column = 4)
+label_dea_excel_input = Label(dea_frame, text = 'Please choose the dea input excel file', background = 'light sky blue').grid(sticky = 'w', row = dea_row, column = 4)
 btn_dea_excel_input = Button(dea_frame, text = '11. Browser', command = _btn_dea_excel_input_action)
 btn_dea_excel_input.grid(sticky = 'w', row = dea_row, column = 5)
 var_dea_excel_input = StringVar()
-label_dea_excel_display = Label(dea_frame, textvariable = var_dea_excel_input, width = 50, anchor = E)
+label_dea_excel_display = Label(dea_frame, textvariable = var_dea_excel_input, width = 40, anchor = E)
 label_dea_excel_display.grid(sticky = 'w', row = dea_row + 1, column = 4)
 btn_dea_excel_setting = Button(dea_frame, text = '12. Setting', command = _btn_dea_excel_setting_action)
 btn_dea_excel_setting.grid(sticky = 'w', row = dea_row + 1, column = 5)
@@ -805,7 +806,7 @@ dea_row += 2
 
 
 # Generate DEA results button
-label_cal_dea = Label(dea_frame, text = 'Calculate Operational Efficiency. Require: 10 ~ 12').grid(sticky = 'w', row = dea_row, column = 4)
+label_cal_dea = Label(dea_frame, text = 'Calculate Operational Efficiency. Require: 10 ~ 12', background = 'light sky blue').grid(sticky = 'w', row = dea_row, column = 4)
 dea_row += 1
 btn_cal_dea = Button(dea_frame, text = 'Calculate Operational Efficiency', command = _btn_cal_dea_action)
 btn_cal_dea.grid(sticky = 'w', row = dea_row, column = 4)
@@ -822,49 +823,49 @@ opt_frame.grid(sticky = 'n', row=opt_row, column=6)
 opt_row += 1
 
 # Optimize equ input
-label_opt_equ_input = Label(opt_frame, text = 'Please choose the spatial equality json file (cal_equality.json)').grid(sticky = 'w', row = opt_row, column = 6)
+label_opt_equ_input = Label(opt_frame, text = 'Please choose the spatial equality json file\n(cal_equality.json)', background = 'light sky blue').grid(sticky = 'w', row = opt_row, column = 6)
 btn_opt_equ_input = Button(opt_frame, text = '13. Browser', command = _btn_opt_equ_input_action)
 btn_opt_equ_input.grid(sticky = 'w', row = opt_row, column = 7)
 var_opt_equ_input = StringVar()
-label_opt_equ_display = Label(opt_frame, textvariable = var_opt_equ_input, width = 50, anchor = E)
+label_opt_equ_display = Label(opt_frame, textvariable = var_opt_equ_input, width = 40, anchor = E)
 label_opt_equ_display.grid(sticky = 'w', row = opt_row + 1, column = 6)
 opt_row += 2
 
 
 # Optimize dea input
-label_opt_dea_input = Label(opt_frame, text = 'Please choose the operational efficiency dea json file (cal_dea.json)').grid(sticky = 'w', row = opt_row, column = 6)
+label_opt_dea_input = Label(opt_frame, text = 'Please choose the operational efficiency dea json file\n(cal_dea.json)', background = 'light sky blue').grid(sticky = 'w', row = opt_row, column = 6)
 btn_opt_dea_input = Button(opt_frame, text = '14. Browser', command = _btn_opt_dea_input_action)
 btn_opt_dea_input.grid(sticky = 'w', row = opt_row, column = 7)
 var_opt_dea_input = StringVar()
-label_opt_dea_display = Label(opt_frame, textvariable = var_opt_dea_input, width = 50, anchor = E)
+label_opt_dea_display = Label(opt_frame, textvariable = var_opt_dea_input, width = 40, anchor = E)
 label_opt_dea_display.grid(sticky = 'w', row = opt_row + 1, column = 6)
 opt_row += 2
 
 # Optimize dea input
-label_glpsol_input = Label(opt_frame, text = 'Please choose the glpsol binary file (glpsol.exe)').grid(sticky = 'w', row = opt_row, column = 6)
+label_glpsol_input = Label(opt_frame, text = 'Please choose the glpsol binary file (glpsol.exe)', background = 'light sky blue').grid(sticky = 'w', row = opt_row, column = 6)
 btn_glpsol_input = Button(opt_frame, text = '15. Browser', command = _bnt_glpsol_input_action)
 btn_glpsol_input.grid(sticky = 'w', row = opt_row, column = 7)
 var_glpsol_input = StringVar()
-label_glpsol_display = Label(opt_frame, textvariable = var_glpsol_input, width = 50, anchor = E)
+label_glpsol_display = Label(opt_frame, textvariable = var_glpsol_input, width = 40, anchor = E)
 label_glpsol_display.grid(sticky = 'w', row = opt_row + 1, column = 6)
 opt_row += 2
 
 # Output rank directory
-label_output_rank_input = Label(opt_frame, text = 'Please choose the output rank directory').grid(sticky = 'w', row = opt_row, column = 6)
+label_output_rank_input = Label(opt_frame, text = 'Please choose the output rank directory', background = 'light sky blue').grid(sticky = 'w', row = opt_row, column = 6)
 btn_output_rank_input = Button(opt_frame, text = '16. Browser', command = _btn_output_rank_input_action)
 btn_output_rank_input.grid(sticky = 'w', row = opt_row, column = 7)
 var_output_rank_input = StringVar()
-label_output_rank_display = Label(opt_frame, textvariable = var_output_rank_input, width = 50, anchor = E)
+label_output_rank_display = Label(opt_frame, textvariable = var_output_rank_input, width = 40, anchor = E)
 label_output_rank_display.grid(sticky = 'w', row = opt_row + 1, column = 6)
 opt_row += 2
 
-label_do_optimization = Label(opt_frame, text = 'Please click the "Calculate Optimization" button below to get the results. Require: 3 ~ 6, 10, 13 ~ 16').grid(sticky = 'w', row = opt_row, column = 6)
+label_do_optimization = Label(opt_frame, text = 'Please click the button below to optimization.\nRequire: 3 ~ 6, 10, 13 ~ 16', background = 'light sky blue').grid(sticky = 'w', row = opt_row, column = 6)
 opt_row += 1
 btn_optimization = Button(opt_frame, text = 'Do Optimization', command = lambda : _btn_optimization(True))
 btn_optimization.grid(sticky = 'w', row = opt_row, column = 6)
 opt_row += 1
 
-label_do_optimization = Label(opt_frame, text = 'If already calculated, please choose rank folder and click "View" button. Require: 3 ~ 6, 10, 13, 14, 16').grid(sticky = 'w', row = opt_row, column = 6)
+label_do_optimization = Label(opt_frame, text = 'If already calculated, click "View" button.\nRequire: 3 ~ 6, 10, 13, 14, 16', background = 'light sky blue').grid(sticky = 'w', row = opt_row, column = 6)
 opt_row += 1
 btn_optimization = Button(opt_frame, text = 'View', command = lambda : _btn_optimization(False))
 btn_optimization.grid(sticky = 'w', row = opt_row, column = 6)

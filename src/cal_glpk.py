@@ -10,9 +10,7 @@
 # ##################################################################################
 
 # C:\Software\winglpk-4.61\glpk-4.61\w64\glpsol --lp .\model_overlay.lp -o 2
-import gurobipy as gb
-import math
-import os, platform, sys
+import os, platform
 import time
 import json
 import model_overlay as mo

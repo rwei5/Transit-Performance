@@ -9,12 +9,10 @@
 # Date                  9/15/2016
 # ##################################################################################
 
-#import shapefile
 from shapely.ops import cascaded_union, polygonize
 from shapely.geometry import Point, Polygon, mapping, LineString
 from fileHandler import *
 from GTFSReader import *
-import DEAadapter
 
 from fileWriter import *
 from rtree import index

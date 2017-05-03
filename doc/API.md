@@ -52,7 +52,9 @@ cal = CalEquality('../input/routes.txt', '../input/stop_times.txt', '../input/tr
 cal.calculate('../output/', "Age", "overlap")
 ```
 
-__Output __
+
+
+__Output__
 
 The output file __cal_equality.json__ and __equality_csv.csv__ will be generated in the output folder.
 

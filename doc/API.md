@@ -8,9 +8,11 @@ CalEquality(self, _rf, _stf, _tf, _bus_stops, _block, _bus_routes,
 stop_id, route_id)
 ```
 __Description__
+
 This class constructor will initiate the parameters to calculate the results.
 
-__parameters__:
+__Parameters__
+
 \_rf: GTFS routes.txt
 \_stf: GTFS stop times.txt
 \_tf: GTFS trips.txt
@@ -24,6 +26,7 @@ route_id: the route id field of bus routes shape file
 calculate(self, output_path, population_name,  method = "overlap")
 ```
 __Description__
+
 This method calculates how many disadvantaged population are served by each bus line.
 
 For the overlap method:
@@ -34,12 +37,14 @@ First create a buffer area of bus stops (default: 400 meters), and then union al
 For the centroid method:
 The service coverage area of bus routes is calculated by measuring the distance from the block group centroid to the nearest transit stops of the routes. If the distance is less than or equal to 400 meters, then this block group is considered to be served by this bus route.
 
-__Parameters__:
+__Parameters__
+
 output_path: the output folder used to store the results
 population_name: the population field of block group shape file
 method: "overlap" or "centroid"
 
 __Example__
+
 ```
 from cal_equality import CalEquality
 
@@ -75,6 +80,7 @@ Id: {'sum': Disadvantaged population, 'lines': a list of routes short names show
 calDEA(_excelfile, _output_path, _head_busline_str, _head_input_set, _head_output_set)
 ```
 __Description__
+
 Calculate the coefficiency. 
 
 __Parameters__
@@ -90,12 +96,14 @@ __Parameters__
 \_head_output_set: the field name of output for linear programming
 
 __Example__
+
 ```
 import DEAadapter as da
 da.calDEA('../input/DEA_input_dataset.xlsx', '../output/', 'Bus Line', set(['Hours', 'Miles', 'Bus Count']), set(['Customer']))
 ```
 
 __Output__
+
 The return value is a dictionary: dict[bus line] -> coefficiency, e.g
 ```
 {"990": 0.0461, "516": 0.4766, "313": 0.2049, "513": 0.2873}
@@ -110,6 +118,7 @@ The output file __cal_dea.json__ and __dea_csv.csv__ will be generated in the ou
 getResults(input_cal, input_dea, output_path, glpkPath)
 ```
 __Description__
+
 This method will calculate the performance of each bus line based on the results of DEA and equality.
 
  At first it will generate a standard lp file based on the input parameters (reference:                                                                                                                                              ([http://www.gurobi.com/documentation/6.5/refman/lp_format.html](http://www.gurobi.com/documentation/6.5/refman/lp_format.html))):
@@ -132,18 +141,21 @@ End
 Then it will call glpsol.exe to solve this file. For each remaining bus lines, operational efficiency weight, and equality weight, it will generate a lp file and solve it.
 
 __Parameters__
+
 input_cal: cal_equality.json, which is the result of equality
 input_dea: cal_dea.json, which is the result of DEA
 output_path: the output folder used to store the result files
 glpkPath: the location of glpsol.exe
 
 __Example__
+
 ```
 import cal_glpk as cg
 cg.getResults('../output/cal_equality.json', '../output/cal_dea.json', '../output/', 'C:\\Software\\winglpk-4.61\\glpk-4.61\\w64\\glpsol')
 ```
 
 __Output__
+
 The output file dea_excel.xls will be generated in the output folder. It will also store the detailed info for each bus line.
 
 
@@ -153,9 +165,11 @@ The output file dea_excel.xls will be generated in the output folder. It will al
 cal_rank(input_cal, input_dea, output_path)
 ```
 __Description__
+
 This method will do the optimization according to remaining bus lines, operational efficiency, and equality.
 
 __Parameters__
+
 input_cal: cal_equality.json, which is the result of equality
 input_dea: cal_dea.json, which is the result of DEA
 output_path: the output folder used to store the result files
@@ -167,4 +181,5 @@ cr.cal_rank('../output/cal_equality.json', '../output/cal_dea.json', '../output/
 ```
 
 __Output__
+
 The output files for each remaining bus, operational efficiency weight, and equality weight will be generated in output folder.

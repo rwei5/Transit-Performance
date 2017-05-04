@@ -727,4 +727,4 @@ if __name__ == '__main__':
     stop_id = "StopId"
     route_id = "RouteId"
     cal = CalEquality(rf, stf, tf, busStops, block, busRoutes, stop_id, route_id)
-    cal.calculate(outputPath, "Age", "overlap")
+    cal.calculate(outputPath, "Age", "centroid")

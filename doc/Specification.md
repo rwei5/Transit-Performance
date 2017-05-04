@@ -271,11 +271,11 @@ GTFSinfo.mapStopsToRoute()
 
 **Input:**:
 
-GTFS stops file, GTFS stop times file and GTFS trips file.
+GTFS routes file, GTFS stop times file and GTFS trips file.
 
 **Default input:**
 
-GTFS stops file : "../input/stops.txt"
+GTFS stops file : "../input/routes.txt"
 
 GTFS stop times file : "../input/stop_times.txt"
 
@@ -388,6 +388,41 @@ Install Tutorial:
 <https://pypi.python.org/pypi/Shapely/>
 
 #### Methods:
+
+
+#####calculate(population\_field\_name, method_name)
+
+**Input:**
+
+Population field name:
+
+User can input the population field name on the interface.
+
+Method name:
+
+There are two methods can be chose from,
+
+"overlap": will call linesOverLap() method.
+
+"centroid": will call calDisbycentroiddistance() method.
+
+**Output:**
+
+For "overlap" method:
+
+PieceId: {'sum': Disadvantaged population, 'lines': a list of routes short names shows which routes the piece belongs to}
+
+```
+>>> 1770: {'sum': 154.0, 'lines': ['205', '200']}, 1771: {'sum': 48.0, 'lines': ['902']}
+
+```
+
+For "centroid" method:
+
+Route short name: {'sum': Disadvantaged population, 'blocks': a list of block ids shows which blocks the route serves 'lines': its route short name}
+```
+'477': {'blocks': [1619, 1420, 1421, 1419, 1455], 'sum': 3917.0, 'lines': ['477']}
+```
 
 #####linesOverLap()
 

@@ -32,7 +32,7 @@ This method calculates how many disadvantaged population are served by each bus 
 For the overlap method:
 It calculates how many disadvantaged population in each overlap pieces of bus routes coverage and which routes these pieces belong to by following steps:
 
-First create a buffer area of bus stops (default: 400 meters), and then union all the buffer areas of bus stops belonging to one bus route. This is considered to be the service area of each bus route. Then use all these service area to intersects with each other, after that, make each small parts as independent service area pieces, Finally we use the service area piece which is overlaid with the census block groups to calculate the disadvantaged population served by each small service area piece. 
+First create a buffer area of bus stops (default: 400 meters), and then union all the buffer areas of bus stops belonging to one bus route. This is considered to be the service area of each bus route. Then use all these service area to intersect with each other, after that, make each small parts as independent service area pieces, Finally we use the service area piece which is overlaid with the census block groups to calculate the disadvantaged population served by each small service area piece. 
 
 For the centroid method:
 The service coverage area of bus routes is calculated by measuring the distance from the block group centroid to the nearest transit stops of the routes. If the distance is less than or equal to 400 meters, then this block group is considered to be served by this bus route.

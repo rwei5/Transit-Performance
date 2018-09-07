@@ -1,12 +1,4 @@
 # ##################################################################################
-# Project               Bus Line Analysis
-# (c) copyright         2016
-# Orgnization           University of Utah
-# 
-# @file                 DEA.py
-# Description           Data Envelopment Analysis Core
-# Author                Yongjian Mu
-# Date                  9/13/2015
 # Reference             https://github.com/metjush/envelopment-py
 # ##################################################################################
 

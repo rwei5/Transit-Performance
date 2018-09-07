@@ -399,9 +399,14 @@ def _btn_optimization(flag):
                 set_equ.add(line)
                 if(line not in dict_dea):
                     consistency_flag = False
+                    print "Error on line: {}".format(line)
                     break
 
         if(len(set_equ) != len(dict_dea)):
+            print "Dict data length different"
+            for key1, value1 in dict_dea.items():
+                if key1 not in set_equ:
+                    print key1
             consistency_flag = False
 
         if(False == consistency_flag):

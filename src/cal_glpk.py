@@ -85,7 +85,7 @@ def getResults(input_cal, input_dea, output_path, glpkPath):
     row = 1
     for p in range (1, remain_buslines + 1):
         for w in coeff_weight:
-            mo.mainFunc(p, w, 1 - w)
+            mo.mainFunc(p, w, 1 - w, input_cal, input_dea)
             retFile = output_path + outputRet + "_remain_" + str(p) + "_weight_operational_efficiency_" + str(w) + ".txt"
             # use glpk to calculate results
             current_output_file = glpkPath + glpkSuffix + inputLpFile + glpkFlag + retFile

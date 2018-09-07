@@ -27,12 +27,12 @@ ratio_percentage =          24
 
 sys_windows =               "Windows"
 
-def mainFunc(r_percentage, r_coeff, r_equality):
-    with open(inputCal) as f:
+def mainFunc(r_percentage, r_coeff, r_equality, input_cal, input_dea):
+    with open(input_cal) as f:
         dict_equality = json.load(f)
     print "Cal Equality Finished\n"
 
-    with open(inputDEA) as f:
+    with open(input_dea) as f:
         dict_coeff = json.load(f)
     print "DEA Finished\n"
     print dict_coeff
@@ -172,5 +172,5 @@ if __name__ == "__main__":
     if(platform.system() == sys_windows):
         inputCal = inputCal.replace("/", "\\")
         inputDEA = inputDEA.replace("/", "\\")
-    mainFunc(ratio_percentage, ratio_coeff, ratio_equality)
+    mainFunc(ratio_percentage, ratio_coeff, ratio_equality, inputCal, inputDEA)
 

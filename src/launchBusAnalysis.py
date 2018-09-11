@@ -329,7 +329,7 @@ def _btn_optimization(flag):
             check_flag = False
 
         if check_flag == False:
-            tkMessageBox.showwarning("Input file missing", "Please fill item 2, 3, 7, 11, 13 ~ 15")
+            tkMessageBox.showwarning("Input file missing", "Please fill item 3 ~ 6, 10, 13 ~ 16")
             return
     else:
         if (0 == len(var_equ_busRoutes_shp_input.get())):
@@ -344,7 +344,7 @@ def _btn_optimization(flag):
             check_flag = False
 
         if check_flag == False:
-            tkMessageBox.showwarning("Input file missing", "Please fill item 2, 3, 7, 13, 15")
+            tkMessageBox.showwarning("Input file missing", "Please fill item 3 ~ 6, 10, 13, 14, 16")
             return
 
     root = Toplevel()

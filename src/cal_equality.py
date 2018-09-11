@@ -531,18 +531,18 @@ class CalEquality:
         polyCentroids = [poly.centroid for poly in polys]
 
 
-         # filter
-        # filtedRoutes_map = self.reduceRoutes()[0]
-
-        # filtedRoutes = filtedRoutes_map.keys()
-        # #print (filtedRoutes)
-        # filted_routesPointsMap = dict()
-        # for k,v in self.routesPointsMap.items():
-        #     if k in filtedRoutes:
-        #         filted_routesPointsMap[k] = v
-
-        routesStopsMap = dict()
+        # filter
+        filtedRoutes_map = self.reduceRoutes()[0]
+        
+        filtedRoutes = filtedRoutes_map.keys()
+        #print (filtedRoutes)
+        filted_routesPointsMap = dict()
         for k,v in self.routesPointsMap.items():
+            if k in filtedRoutes:
+                filted_routesPointsMap[k] = v
+        
+        routesStopsMap = dict()
+        for k,v in filted_routesPointsMap.items():
             tmp = []
             for item in v:
                 if item[1] is not None:

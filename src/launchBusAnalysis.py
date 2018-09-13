@@ -300,7 +300,7 @@ def _btn_textbox_update(event, combobox):
             bus_cnt += 1
 
         #btn_circle[btn_cnt] = top.create_circle(x_x1 + 600, y_temp - 560, 5, fill="red", outline="#DDD", width=1)
-        btn_circle[btn_cnt] = top.create_circle(x_x1 + 600 + (population_cur - population_min) / population_step * 40, y_temp - 560 + (coeff_cur - coeff_min) / coeff_step * 40, 5, fill="red", outline="#DDD", width=1)
+        btn_circle[btn_cnt] = top.create_circle(x_x1 + 600 + (population_cur - population_min) / population_step * 40, y_y2 - (coeff_cur - coeff_min) / coeff_step * 40, 5, fill="red", outline="#DDD", width=1)
         top.tag_bind(btn_circle[btn_cnt], '<ButtonPress-1>', lambda event, arg = bus_line_set: onObjectClick(event, arg))
         btn_cnt += 1
 
@@ -402,16 +402,16 @@ def _btn_optimization(flag):
                     print "Error on line: {}".format(line)
                     break
 
-        if(len(set_equ) != len(dict_dea)):
-            print "Dict data length different"
-            for key1, value1 in dict_dea.items():
-                if key1 not in set_equ:
-                    print key1
-            consistency_flag = False
+        #if(len(set_equ) != len(dict_dea)):
+            #print "Dict data length different"
+            #for key1, value1 in dict_dea.items():
+                #if key1 not in set_equ:
+                    #print key1
+            #consistency_flag = False
 
-        if(False == consistency_flag):
-            tkMessageBox.showwarning("Error", "The data of Equality are not the same as Operational Efficiency")
-            return
+        #if(False == consistency_flag):
+            #tkMessageBox.showwarning("Error", "The data of Equality are not the same as Operational Efficiency")
+            #return
         thread.start_new_thread(_optimize_thread, (var_optimization_label,))
 
 
@@ -782,7 +782,7 @@ equality_row += 2
 # Generate equality results button
 label_cal_equality = Label(equ_frame, text = 'Calculate Spatial Equality. Require: 1 ~ 10', background = 'light sky blue').grid(sticky = 'w', row = equality_row, column = 0)
 equality_row += 1
-btn_cal_equality_overlap = Button(equ_frame, text = 'Calculate Overlap', command = lambda : _btn_cal_equality_action("overlap"))
+btn_cal_equality_overlap = Button(equ_frame, text = 'Calculate Overlay', command = lambda : _btn_cal_equality_action("overlap"))
 btn_cal_equality_overlap.grid(sticky = 'w', row = equality_row, column = 0)
 equality_row += 1
 btn_cal_equality_centroid = Button(equ_frame, text = 'Calculate Centroid', command = lambda: _btn_cal_equality_action("centroid"))

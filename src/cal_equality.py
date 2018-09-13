@@ -577,14 +577,25 @@ class CalEquality:
 
         print "----------routesBlockSet-------------"
         print routesBlockSet
+        
+        #change the output of centroid method to be consistent with the overlap method
+
 
         resultMap = dict()
+        popMap = dict()
+        # get id short name map.
+        GTFSinfo = GTFSReader(self.rf, self.stf, self.tf)
+        idToShortName = GTFSinfo.mapIdtoShortName()        
+        
         for k,v in routesBlockSet.items():
             # if k != '64832':
             #     continue
-            tmpMap = dict()
+            
 
-            tmpMap[population_name] = 0
+            
+            #tmpMap = dict()
+
+            #tmpMap[population_name] = 0
             # tmpMap["PovertyCentroid"] = 0
             # tmpMap["DisabilityCentroid"] = 0
             # tmpMap["RaceCentroid"] = 0
@@ -592,27 +603,34 @@ class CalEquality:
             # tmpMap["TransportaCentroid"] = 0
 
             for item in v:
-                tmpMap[population_name] += self.getRatioOfPeople(1.0,population_name, blocksRecordsDicts[item])
+                if item in resultMap.keys():
+                    if k in idToShortName.keys():
+                        resultMap[item].add(idToShortName[k])  
+                else:
+                    if k in idToShortName.keys():
+                        resultMap[item] = set([idToShortName[k]])
+                popMap[item] = self.getRatioOfPeople(1.0,population_name, blocksRecordsDicts[item])
+                #tmpMap[population_name] += self.getRatioOfPeople(1.0,population_name, blocksRecordsDicts[item])
                 # tmpMap["PovertyCentroid"] += self.getRatioOfPeople(1.0,"Poverty", blocksRecordsDicts[item])
                 # tmpMap["DisabilityCentroid"] += self.getRatioOfPeople(1.0,"Disability", blocksRecordsDicts[item])
                 # tmpMap["RaceCentroid"] += self.getRatioOfPeople(1.0,"Race", blocksRecordsDicts[item])
                 # tmpMap["UnemployCentroid"] += self.getRatioOfPeople(1.0,"Unemploy", blocksRecordsDicts[item])
                 # tmpMap["TransportaCentroid"] += self.getRatioOfPeople(1.0,"Transporta", blocksRecordsDicts[item])
-            resultMap[k] = tmpMap
+            #resultMap[k] = tmpMap
 
         #return routesLines
         centroid_result_map = dict()
 
-        # get id short name map.
-        GTFSinfo = GTFSReader(self.rf, self.stf, self.tf)
-        idToShortName = GTFSinfo.mapIdtoShortName()
-        for k,v in resultMap.items():
-            dis_sum = 0.0
-            for k1,v1 in v.items():
-                dis_sum = dis_sum + v1
 
-            if k in idToShortName.keys():
-                centroid_result_map[idToShortName[k]] = {'sum':dis_sum, 'lines': [idToShortName[k]], 'blocks': list(routesBlockSet[k])}
+        for k,v in resultMap.items():
+            centroid_result_map[k] = {'sum':popMap[k], 'lines': list(v)}
+
+            #for v1 in v:
+                #if v1 in idToShortName.keys():
+                    #centroid_result_map[k] = {}
+
+            #if k in idToShortName.keys():
+                #centroid_result_map[idToShortName[k]] = {'sum':dis_sum, 'lines': [idToShortName[k]], 'blocks': list(routesBlockSet[k])}
 
         return centroid_result_map
         #self.fw.write_to_file_dict_centroid(routesLines, resultMap)
@@ -678,33 +696,33 @@ class CalEquality:
         resultMap = dict()
         if method == "overlap":
             resultMap = self.linesOverLap(population_name)
-            # Write CSV
-            csv_filename = output_path + outputCSV
-            csv_fd = fh.openRegularFile(csv_filename)
-            csv_fw = fh.getCSVFileWriter(csv_fd, ['ID', 'Total Served People', 'Bus line'])
-            fh.writeCSVFileHeader(csv_fw)
-            bus_line_str = ""
-            for key, value in resultMap.items():
-                for line in value['lines']:
-                    bus_line_str += line + " "
-                fh.writeCSVRow(csv_fw, {'ID': key, 'Total Served People': value['sum'], 'Bus line' : bus_line_str})
-            fh.closeRegularFile(csv_fd)
+            ## Write CSV
+            #csv_filename = output_path + outputCSV
+            #csv_fd = fh.openRegularFile(csv_filename)
+            #csv_fw = fh.getCSVFileWriter(csv_fd, ['ID', 'Total Served People', 'Bus line'])
+            #fh.writeCSVFileHeader(csv_fw)
+            #bus_line_str = ""
+            #for key, value in resultMap.items():
+                #for line in value['lines']:
+                    #bus_line_str += line + " "
+                #fh.writeCSVRow(csv_fw, {'ID': key, 'Total Served People': value['sum'], 'Bus line' : bus_line_str})
+            #fh.closeRegularFile(csv_fd)
         elif method == "centroid":
             resultMap = self.calDisByCentroidDistance(population_name)
             # Write CSV
-            csv_filename = output_path + outputCSV
-            csv_fd = fh.openRegularFile(csv_filename)
-            csv_fw = fh.getCSVFileWriter(csv_fd, ['ID', 'Total Served People', 'Bus line', 'Block ID'])
-            fh.writeCSVFileHeader(csv_fw)
-            bus_line_str = ""
-            blocks_str = ""
-            for key, value in resultMap.items():
-                for line in value['lines']:
-                    bus_line_str += line + " "
-                for block in value['blocks']:
-                    blocks_str += str(block) + " "
-                fh.writeCSVRow(csv_fw, {'ID': key, 'Total Served People': value['sum'], 'Bus line': bus_line_str, 'Block ID' : blocks_str})
-            fh.closeRegularFile(csv_fd)
+            #csv_filename = output_path + outputCSV
+            #csv_fd = fh.openRegularFile(csv_filename)
+            #csv_fw = fh.getCSVFileWriter(csv_fd, ['ID', 'Total Served People', 'Bus line', 'Block ID'])
+            #fh.writeCSVFileHeader(csv_fw)
+            #bus_line_str = ""
+            #blocks_str = ""
+            #for key, value in resultMap.items():
+                #for line in value['lines']:
+                    #bus_line_str += line + " "
+                #for block in value['blocks']:
+                    #blocks_str += str(block) + " "
+                #fh.writeCSVRow(csv_fw, {'ID': key, 'Total Served People': value['sum'], 'Bus line': bus_line_str, 'Block ID' : blocks_str})
+            #fh.closeRegularFile(csv_fd)
 
         # dump json file
         jsonStr = json.dumps(resultMap)
